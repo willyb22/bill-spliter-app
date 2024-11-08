@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS descriptions (
+    id INTEGER PRIMARY KEY,
+    "detail" TEXT NOT NULL UNIQUE
+);
