@@ -89,12 +89,12 @@ class StatesTable(QWidget):
             # update the data
             pay = self.user_data['pay']
             participant_ids = [self.user_data['owe_id'], self.user_data['owed_id']]
-            if self.user_data['amount']<0:
-                proportions = [0,1]
-                amounts = [-pay, 0]
+            if self.user_data['pay_person']==self.user_data['owe_person']:
+                proportions = [0, 1]
+                amounts = [pay, 0]
             else:
-                proportions = [1,0]
-                amounts = [0, -pay]
+                proportions = [1, 0]
+                amounts = [0, pay]
             user_data = dict()
             user_data['description_id'] = 1
             user_data['participant_ids'] = participant_ids

@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLineEdit, QLabel, QPushButton, QHBoxLayout
+from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLineEdit, QLabel, QPushButton, QHBoxLayout, QComboBox
 from PyQt5.QtGui import QIntValidator
 
 class PayWindow(QDialog):
@@ -16,7 +16,17 @@ class PayWindow(QDialog):
         amount = self.user_data['amount']
         if amount<0:
             owe_person, owed_person = owed_person, owe_person
-        layout.addWidget(QLabel(f"{owe_person}   ->    {owed_person}"))
+        self.user_data['pay_person'] = owe_person
+        combo_layout = QHBoxLayout()
+        self.options = [owe_person, owed_person]
+        self.combo_box = QComboBox()
+        self.combo_box.addItems(self.options)
+        self.pay_to_label = QLabel(f"pay to {owed_person}")
+        self.combo_box.currentIndexChanged.connect(self.on_selection_changed)
+        
+        combo_layout.addWidget(self.combo_box)
+        combo_layout.addWidget(self.pay_to_label)
+        layout.addLayout(combo_layout)
 
         # Input field, with a validator for positive integers
         self.input_field = QLineEdit(str(self.user_data['pay']))
@@ -47,3 +57,11 @@ class PayWindow(QDialog):
         else:
             # Show an error message or handle invalid input if needed
             self.input_field.setText("")  # Clear invalid input
+
+    def on_selection_changed(self):
+        selection = self.combo_box.currentText()
+        if selection == self.user_data['owe_person']:
+            self.pay_to_label.setText(f"pay to {self.user_data['owed_person']}")
+        else:
+            self.pay_to_label.setText(f"pay to {self.user_data['owe_person']}")
+        self.user_data['pay_person']
