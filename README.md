@@ -15,5 +15,3 @@ This is a simple desktop application built using PyQt5 and SQLite3, designed to 
 - **Python 3**
 - **PyQt5**: For building the graphical user interface.
 - **SQLite3**: For managing and storing bill data.
-
-## Installation

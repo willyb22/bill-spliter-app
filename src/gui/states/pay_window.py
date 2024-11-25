@@ -64,4 +64,4 @@ class PayWindow(QDialog):
             self.pay_to_label.setText(f"pay to {self.user_data['owed_person']}")
         else:
             self.pay_to_label.setText(f"pay to {self.user_data['owe_person']}")
-        self.user_data['pay_person']
+        self.user_data['pay_person'] = selection
