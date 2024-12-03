@@ -4,12 +4,12 @@ WITH trans_description AS (
         JOIN descriptions d
         ON t.description = d.id
 ), trans_detail AS (
-    SELECT t.timestamp, t.description, td.participant_id, td.amount
+    SELECT t.timestamp, t.description, td.participant_id, td.amount, td.proportion, td.proportion_total
     FROM trans_description t
         JOIN transaction_detail td
         ON t.id = td.transaction_id
 )
-SELECT t.timestamp, p.name, t.description, t.amount
+SELECT t.timestamp, p.name, t.description, t.amount, t.proportion, t.proportion_total
 FROM trans_detail t
     JOIN participant p
     ON t.participant_id = p.id

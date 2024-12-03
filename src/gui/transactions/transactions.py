@@ -69,7 +69,8 @@ class TransactionsWidget(QWidget):
         timestamp = args['timestamp']
         description = args['description']
         amount = args['amount']
-        return " - ".join([name, timestamp, description, str(amount)]) 
+        proportion_str = f"{args['proportion']}/{args['proportion_total']}"
+        return " - ".join([name, timestamp, description, proportion_str, str(amount)]) 
 
     def add_to_display(self, **args):
         transaction = self.get_transaction_str(**args)
@@ -80,10 +81,11 @@ class TransactionsWidget(QWidget):
         description_id = self.user_data['description_id']
         participant_ids = self.user_data['participant_ids']
         proportions = self.user_data['proportions']
+        proportion_total = sum(proportions)
         amounts = self.user_data['amounts']
         self.data_handler.add_transaction(description_id, participant_ids, proportions, amounts)
 
-        for id, amount in zip(participant_ids, amounts):
+        for id, amount, proportion in zip(participant_ids, amounts, proportions):
             if amount>0:
                 name = self.state['participant']['active'][id]
                 timestamp = datetime.fromtimestamp(time.time()).strftime(r"%Y/%m/%d")
@@ -92,9 +94,11 @@ class TransactionsWidget(QWidget):
                     'timestamp': timestamp,
                     'desctiption': description,
                     'name': name,
-                    'amount': amount
+                    'amount': amount,
+                    'proportion': proportion,
+                    'proportion_total': proportion_total,
                 })
-                self.add_to_display(name=name,description=description,timestamp=timestamp,amount=amount)
+                self.add_to_display(name=name,description=description,timestamp=timestamp,amount=amount, proportion=proportion, proportion_total=proportion_total)
         
         self.stateChanged.emit()
     

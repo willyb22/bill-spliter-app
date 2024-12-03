@@ -22,12 +22,14 @@ class TransactionsDataHandler:
 
     def get_transactions(self):
         self.state['transactions'] = []
-        for timestamp, name, description, amount in self.data_handler.fetch_bill.fetch_transactions():
+        for timestamp, name, description, amount, proportion, proportion_total in self.data_handler.fetch_bill.fetch_transactions():
             self.state['transactions'].append({
                 'timestamp': datetime.fromtimestamp(timestamp).strftime(r"%Y/%m/%d"),
                 'description': description,
                 'name': name,
-                'amount': amount
+                'amount': amount,
+                'proportion': proportion, 
+                'proportion_total': proportion_total
             })
 
     def add_transaction(self, description_id, participant_ids, proportions, amounts):

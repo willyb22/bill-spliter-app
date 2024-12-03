@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS transaction_detail (
     transaction_id INTEGER,
     participant_id INTEGER,
     proportion REAL DEFAULT 1,
+    proportion_total REAL DEFAULT 1,
     amount REAL DEFAULT 0,
     FOREIGN KEY (transaction_id) REFERENCES transactions (id)
         ON DELETE CASCADE,

@@ -49,17 +49,18 @@ class AddBill:
             )
         self.cursor.execute(query)
         transaction_id = self.cursor.lastrowid
-        
+        proportion_total = sum(args['proportions'])
         for participant_id, proportion, amount in zip(
             args['participants'],
             args['proportions'],
             args['amounts']
         ):
-            query = "INSERT INTO transaction_detail (transaction_id, participant_id, proportion, amount) VALUES (%d,%d,%f,%f)"% \
+            query = "INSERT INTO transaction_detail (transaction_id, participant_id, proportion, proportion_total, amount) VALUES (%d,%d,%f,%f, %f)"% \
                 (
                     transaction_id,
                     participant_id,
                     proportion,
+                    proportion_total,
                     amount
                 )
             self.cursor.execute(query)
